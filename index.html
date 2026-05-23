@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Álbum de Gatitos · Edición Mundial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Comic+Neue:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: linear-gradient(145deg, #f9e7b3 0%, #f5cda0 100%);
+            font-family: 'Patrick Hand', 'Comic Neue', 'Indie Flower', cursive;
+            padding: clamp(0.8rem, 4vw, 2rem);
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(transparent, transparent 28px, rgba(255,215,150,0.3) 28px, rgba(255,200,120,0.3) 30px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .album-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            background: rgba(255, 251, 235, 0.92);
+            border-radius: clamp(35px, 8vw, 65px) clamp(35px, 8vw, 65px) clamp(45px, 9vw, 75px) clamp(45px, 9vw, 75px);
+            box-shadow: 20px 20px 35px rgba(0,0,0,0.2), inset 2px 2px 12px rgba(255,245,200,0.9);
+            padding: clamp(1.2rem, 4vw, 2rem);
+            backdrop-filter: blur(2px);
+            position: relative;
+            z-index: 2;
+            border: 4px dashed #ffb882;
+        }
+        .album-header {
+            text-align: center;
+            margin-bottom: 1.8rem;
+            background: #fff2df;
+            border-radius: 80px;
+            padding: 0.8rem 1rem;
+            box-shadow: 6px 6px 0 #e0a46b;
+            transform: rotate(-0.3deg);
+            border: 2px solid #f7bc6c;
+        }
+        .album-header h1 {
+            font-family: 'Indie Flower', cursive;
+            font-size: clamp(2rem, 8vw, 3.4rem);
+            color: #bf5e2c;
+            text-shadow: 4px 4px 0 #ffd966;
+        }
+        .counter-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .sticker-counter {
+            background: #a8e6cf;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            color: #2c5a2e;
+            box-shadow: inset -2px -2px 0 #5d9b6b, 4px 4px 0 #ddb067;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-doodle {
+            background: #fedba0;
+            border: none;
+            font-family: 'Patrick Hand', cursive;
+            font-size: clamp(0.9rem, 3.5vw, 1.15rem);
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 #b97f3e;
+            color: #5a2e0e;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.05s linear;
+        }
+        .btn-doodle:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #b97f3e; }
+        .expand-btn { background: #bb9eff; color: #2e1a4e; box-shadow: 3px 3px 0 #6a4e9e; }
+        .clear-btn { background: #ffb4a2; color: #851e0e; }
+        .cover {
+            background: #ffe3bc;
+            margin: 1.5rem 0;
+            border-radius: 45px 20px 55px 30px;
+            padding: clamp(1rem, 4vw, 1.8rem);
+            box-shadow: 18px 18px 0 rgba(0,0,0,0.1), inset 0 0 0 4px #fff3cf, inset 0 0 0 8px #ffcd94;
+            border: 2px solid #f0bc7a;
+        }
+        .cover-title {
+            font-size: clamp(1.6rem, 7vw, 2.8rem);
+            text-align: center;
+            color: #b33f00;
+            background: #fff0cf;
+            width: 100%;
+            padding: 10px;
+            border-radius: 70px;
+            margin-bottom: 1rem;
+            font-family: 'Indie Flower', cursive;
+            box-shadow: inset 0 -2px 0 #dba445, 0 5px 0 #c06f2a;
+        }
+        .cat-duo {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin-top: 0.8rem;
+        }
+        .cat-card {
+            background: #fffaf0;
+            padding: 12px 12px 8px;
+            border-radius: 45px 25px 55px 30px;
+            transform: rotate(-0.8deg);
+            text-align: center;
+            width: min(220px, 70vw);
+            box-shadow: 10px 10px 0 #e0a86b;
+            border: 2px solid #faca7a;
+        }
+        .cat-card svg {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #fce9c4;
+            border-radius: 30px 18px 35px 20px;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+        }
+        .cat-card span {
+            display: block;
+            margin-top: 8px;
+            font-size: clamp(1.1rem, 5vw, 1.6rem);
+            font-weight: bold;
+            color: #c1632a;
+        }
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        @media (max-width: 480px) {
+            .photos-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+        }
+        .photo-item {
+            background: #fffbf0;
+            border-radius: 35px 22px 45px 28px;
+            padding: 12px 10px 8px;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.08);
+            transform: rotate(var(--rot, 0deg));
+            position: relative;
+            border: 1.5px solid #ffcd94;
+            transition: 0.1s;
+        }
+        .photo-item:nth-child(odd) { --rot: -1deg; }
+        .photo-item:nth-child(3n) { --rot: 1.2deg; }
+        .photo-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 28px 16px 32px 20px;
+            background: #e9cf9e;
+            cursor: pointer;
+        }
+        .photo-name {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 0.85rem;
+            background: #ffefcf;
+            margin-top: 8px;
+            padding: 4px 6px;
+            border-radius: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: #7a4316;
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+        .menu-btn {
+            position: absolute;
+            bottom: 6px;
+            right: 12px;
+            background: #ffda99;
+            border-radius: 30px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 2px 2px 0 #b97f3e;
+            z-index: 4;
+            transition: 0.05s linear;
+        }
+        .menu-btn:active { transform: scale(0.95); }
+        .context-menu {
+            position: absolute;
+            background: #fff7e8;
+            border: 2px solid #ffbc6e;
+            border-radius: 28px;
+            padding: 6px 0;
+            min-width: 130px;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+            z-index: 100;
+            font-family: 'Patrick Hand', cursive;
+        }
+        .context-menu div {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 0.95rem;
+            color: #5c2b0a;
+            transition: background 0.05s;
+        }
+        .context-menu div:hover { background: #ffefcf; }
+        .delete-photo-btn {
+            color: #d9534f;
+        }
+        .empty-message {
+            text-align: center;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
+            color: #c97e3a;
+            background: #fff0cf;
+            padding: 2rem;
+            border-radius: 70px;
+            grid-column: 1 / -1;
+        }
+        .drop-area {
+            background: #ffefcf;
+            border-radius: 50px;
+            padding: 0.9rem;
+            margin: 12px 0;
+            text-align: center;
+            border: 3px dotted #ffa559;
+            transition: 0.1s;
+        }
+        .drop-area.drag-over { background: #ffe3aa; border: 4px solid #fd9426; }
+        footer { text-align: center; margin-top: 2rem; font-size: clamp(0.7rem, 3vw, 1rem); color: #a4511b; }
+    </style>
+</head>
+<body>
+<div class="album-container">
+    <div class="album-header">
+        <h1>🐾 ÁLBUM DE GATITOS 🐱</h1>
+        <p>✨ edición mundial + colorida ✨</p>
+        <div class="counter-box">
+            <div class="sticker-counter"><i class="fas fa-images"></i> <span id="photoCount">0</span> / <span id="maxLimitSpan">500</span> cromos gatunos</div>
+            <div class="btn-group">
+                <label class="btn-doodle" for="fileInput"><i class="fas fa-upload"></i> 📸 Subir fotos</label>
+                <input type="file" id="fileInput" multiple accept="image/jpeg, image/png, image/webp, image/gif" style="display: none;">
+                <button id="expandBtn" class="btn-doodle expand-btn"><i class="fas fa-expand-alt"></i> Expandir a 750</button>
+                <button id="clearAllBtn" class="btn-doodle clear-btn"><i class="fas fa-trash-alt"></i> Limpiar todo</button>
+            </div>
+        </div>
+        <div class="drop-area" id="dropArea"><i class="fas fa-paw"></i> Arrastra y suelta fotos de michis <i class="fas fa-cat"></i></div>
+    </div>
+
+    <!-- PORTADA con dibujos vectoriales -->
+    <div class="cover front-cover">
+        <div class="cover-title">📖 ÁLBUM DE GATITOS 🐾</div>
+        <div class="cat-duo">
+            <div class="cat-card">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="200" fill="#FCE9C4" rx="30" ry="30"/>
+                    <!-- Siamés: cuerpo crema, cara máscara marrón -->
+                    <ellipse cx="100" cy="120" rx="45" ry="40" fill="#E8D5B5" stroke="#AA7C4A" stroke-width="2.5"/>
+                    <circle cx="100" cy="100" r="28" fill="#F3E5C0" stroke="#AA7C4A" stroke-width="2"/>
+                    <!-- Orejas -->
+                    <polygon points="78,80 68,52 90,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/>
+                    <polygon points="122,80 132,52 110,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/>
+                    <!-- Máscara marrón -->
+                    <ellipse cx="100" cy="105" rx="18" ry="14" fill="#AA7C4A" opacity="0.7"/>
+                    <!-- Ojos azules -->
+                    <circle cx="90" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/>
+                    <circle cx="110" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/>
+                    <circle cx="89" cy="95" r="1.5" fill="white"/>
+                    <circle cx="109" cy="95" r="1.5" fill="white"/>
+                    <!-- Nariz y bigotes -->
+                    <polygon points="100,103 97,107 103,107" fill="#DB8E6B"/>
+                    <line x1="85" y1="106" x2="70" y2="102" stroke="#7A5B3A" stroke-width="1.5"/>
+                    <line x1="85" y1="109" x2="68" y2="110" stroke="#7A5B3A" stroke-width="1.5"/>
+                    <line x1="115" y1="106" x2="130" y2="102" stroke="#7A5B3A" stroke-width="1.5"/>
+                    <line x1="115" y1="109" x2="132" y2="110" stroke="#7A5B3A" stroke-width="1.5"/>
+                    <text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#B35F2A">🐱 Siamés</text>
+                </svg>
+                <span>Siamés real <i class="fas fa-crown"></i></span>
+            </div>
+            <div class="cat-card">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="200" fill="#2C2C2C" rx="30" ry="30"/>
+                    <!-- Pantera negra elegante -->
+                    <ellipse cx="100" cy="125" rx="48" ry="38" fill="#1E1E1E" stroke="#444" stroke-width="2"/>
+                    <circle cx="100" cy="100" r="30" fill="#252525" stroke="#444" stroke-width="2"/>
+                    <polygon points="76,80 64,48 92,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/>
+                    <polygon points="124,80 136,48 108,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/>
+                    <!-- Ojos amarillos brillantes -->
+                    <circle cx="89" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/>
+                    <circle cx="111" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/>
+                    <circle cx="88" cy="94" r="2" fill="black"/>
+                    <circle cx="110" cy="94" r="2" fill="black"/>
+                    <polygon points="100,104 96,109 104,109" fill="#5A3E2E"/>
+                    <line x1="82" y1="108" x2="65" y2="104" stroke="#666" stroke-width="1.5"/>
+                    <line x1="82" y1="111" x2="63" y2="113" stroke="#666" stroke-width="1.5"/>
+                    <line x1="118" y1="108" x2="135" y2="104" stroke="#666" stroke-width="1.5"/>
+                    <line x1="118" y1="111" x2="137" y2="113" stroke="#666" stroke-width="1.5"/>
+                    <text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#E0B07F">🐈‍⬛ Panterita</text>
+                </svg>
+                <span>Panterita <i class="fas fa-moon"></i></span>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top:16px;">✨ ¡Pega aquí tus fotos y ponles nombre! ✨</p>
+    </div>
+
+    <div id="photosGrid" class="photos-grid">
+        <div class="empty-message"><i class="fas fa-cat"></i> ¡No hay fotos aún! Sube gatitos desde tu galería, Google o la calle 🐈</div>
+    </div>
+
+    <!-- CONTRAPORTADA con mismos dibujos -->
+    <div class="cover back-cover">
+        <div class="cover-title">📘 ÁLBUM DE GATITOS 🐾</div>
+        <div class="cat-duo">
+            <div class="cat-card">
+                <svg viewBox="0 0 200 200"><use href="#siamDibujo"/></svg>
+                <span>Siamés</span>
+            </div>
+            <div class="cat-card">
+                <svg viewBox="0 0 200 200"><use href="#panteraDibujo"/></svg>
+                <span>Panterita</span>
+            </div>
+        </div>
+        <p style="text-align:center; margin-top:16px;"><i class="fas fa-feather-alt"></i> ¡Hasta 750 michis! Edición ronroneante</p>
+    </div>
+    <footer>🐾 Toca ⋮ en cada foto para editar nombre, copiar, pegar o borrar 🐾</footer>
+</div>
+
+<script>
+    // DEFINICIONES SVG REUTILIZABLES
+    const svgSiam = `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#FCE9C4" rx="30"/><ellipse cx="100" cy="120" rx="45" ry="40" fill="#E8D5B5" stroke="#AA7C4A" stroke-width="2.5"/><circle cx="100" cy="100" r="28" fill="#F3E5C0" stroke="#AA7C4A" stroke-width="2"/><polygon points="78,80 68,52 90,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><polygon points="122,80 132,52 110,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><ellipse cx="100" cy="105" rx="18" ry="14" fill="#AA7C4A" opacity="0.7"/><circle cx="90" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="110" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="89" cy="95" r="1.5" fill="white"/><circle cx="109" cy="95" r="1.5" fill="white"/><polygon points="100,103 97,107 103,107" fill="#DB8E6B"/><line x1="85" y1="106" x2="70" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="85" y1="109" x2="68" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="106" x2="130" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="109" x2="132" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#B35F2A">🐱 Siamés</text></svg>`;
+    const svgPantera = `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#2C2C2C" rx="30"/><ellipse cx="100" cy="125" rx="48" ry="38" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="100" cy="100" r="30" fill="#252525" stroke="#444" stroke-width="2"/><polygon points="76,80 64,48 92,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><polygon points="124,80 136,48 108,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="89" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="111" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="88" cy="94" r="2" fill="black"/><circle cx="110" cy="94" r="2" fill="black"/><polygon points="100,104 96,109 104,109" fill="#5A3E2E"/><line x1="82" y1="108" x2="65" y2="104" stroke="#666" stroke-width="1.5"/><line x1="82" y1="111" x2="63" y2="113" stroke="#666" stroke-width="1.5"/><line x1="118" y1="108" x2="135" y2="104" stroke="#666" stroke-width="1.5"/><line x1="118" y1="111" x2="137" y2="113" stroke="#666" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#E0B07F">🐈‍⬛ Panterita</text></svg>`;
+    const defs = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    defs.style.display = "none";
+    defs.innerHTML = `<defs><g id="siamDibujo">${svgSiam}</g><g id="panteraDibujo">${svgPantera}</g></defs>`;
+    document.body.appendChild(defs);
+    document.querySelectorAll('.back-cover svg, .front-cover svg').forEach(svg => { if(svg.children.length===0) svg.innerHTML = `<use href="#siamDibujo"/>`; });
+    document.querySelectorAll('.back-cover .cat-card:last-child svg, .front-cover .cat-card:last-child svg').forEach(svg => svg.innerHTML = `<use href="#panteraDibujo"/>`);
+    
+    // --- LÓGICA BD Y VARIABLES GLOBALES ---
+    let MAX_FOTOS = 500;
+    let db = null;
+    let copiedPhotoBlob = null;  // para copiar/pegar (guardamos blob y nombre opcional)
+    let copiedPhotoName = "";
+    
+    const DB_NAME = "GatitosAlbumDB";
+    const STORE_NAME = "fotos";
+    let currentMenu = null;
+    
+    function initDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, 3);
+            request.onerror = reject;
+            request.onsuccess = (e) => { db = e.target.result; resolve(db); };
+            request.onupgradeneeded = (e) => {
+                const dbUp = e.target.result;
+                if (!dbUp.objectStoreNames.contains(STORE_NAME)) {
+                    const store = dbUp.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
+                    store.createIndex("timestamp", "timestamp");
+                }
+            };
+        });
+    }
+    
+    async function savePhotoToDB(blob, nombre) {
+        if (!db) throw new Error("DB no lista");
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([STORE_NAME], "readwrite");
+            const store = tx.objectStore(STORE_NAME);
+            const photoObj = { blob, nombre: nombre || "", timestamp: Date.now() };
+            const req = store.add(photoObj);
+            req.onsuccess = (e) => resolve({ id: e.target.result, ...photoObj });
+            req.onerror = reject;
+        });
+    }
+    
+    async function updatePhotoName(id, newName) {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([STORE_NAME], "readwrite");
+            const store = tx.objectStore(STORE_NAME);
+            const getReq = store.get(id);
+            getReq.onsuccess = () => {
+                const data = getReq.result;
+                if (data) {
+                    data.nombre = newName;
+                    const putReq = store.put(data);
+                    putReq.onsuccess = () => resolve(true);
+                    putReq.onerror = reject;
+                } else reject("no existe");
+            };
+            getReq.onerror = reject;
+        });
+    }
+    
+    async function getAllPhotos() {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction([STORE_NAME], "readonly");
+            const store = tx.objectStore(STORE_NAME);
+            const req = store.getAll();
+            req.onsuccess = () => {
+                let items = req.result || [];
+                items.sort((a,b)=> a.timestamp - b.timestamp);
+                resolve(items);
+            };
+            req.onerror = reject;
+        });
+    }
+    
+    async function deletePhotoFromDB(id) { 
+        return new Promise((resolve,reject)=>{
+            const tx = db.transaction([STORE_NAME],"readwrite");
+            tx.objectStore(STORE_NAME).delete(id).onsuccess = ()=>resolve(true);
+            tx.onerror = reject;
+        });
+    }
+    async function deleteAllPhotosDB() {
+        const tx = db.transaction([STORE_NAME],"readwrite");
+        await tx.objectStore(STORE_NAME).clear();
+        return new Promise(r=>tx.oncomplete=r);
+    }
+    
+    async function addPhotoWithName(blob, customName) {
+        const finalName = customName && customName.trim() !== "" ? customName.trim() : null;
+        await savePhotoToDB(blob, finalName || "");
+        await renderGallery();
+    }
+    
+    // render principal
+    async function renderGallery() {
+        const all = await getAllPhotos();
+        const count = all.length;
+        document.getElementById("photoCount").innerText = count;
+        document.getElementById("maxLimitSpan").innerText = MAX_FOTOS;
+        const grid = document.getElementById("photosGrid");
+        grid.innerHTML = "";
+        if(count===0) {
+            grid.innerHTML = '<div class="empty-message"><i class="fas fa-cat"></i> ¡No hay fotos! Sube gatitos 🐈</div>';
+            return;
+        }
+        for(let i=0;i<all.length;i++) {
+            const p = all[i];
+            const imgUrl = URL.createObjectURL(p.blob);
+            const div = document.createElement("div");
+            div.className = "photo-item";
+            const img = document.createElement("img");
+            img.src = imgUrl; img.className = "photo-img";
+            img.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const modal = document.createElement("div");
+                modal.style.position="fixed"; modal.style.top=0; modal.style.left=0; modal.style.width="100%"; modal.style.height="100%";
+                modal.style.background="rgba(0,0,0,0.85)"; modal.style.display="flex"; modal.style.alignItems="center"; modal.style.justifyContent="center";
+                modal.style.zIndex="9999";
+                const bigImg = document.createElement("img"); bigImg.src=imgUrl; bigImg.style.maxWidth="90%"; bigImg.style.borderRadius="40px";
+                modal.appendChild(bigImg); modal.onclick=()=>modal.remove(); document.body.appendChild(modal);
+            });
+            const nameSpan = document.createElement("div"); nameSpan.className = "photo-name";
+            const displayName = p.nombre && p.nombre !== "" ? p.nombre : `Gatito #${i+1}`;
+            nameSpan.innerText = displayName;
+            const menuBtn = document.createElement("div"); menuBtn.className = "menu-btn"; menuBtn.innerHTML = "<i class='fas fa-ellipsis-v'></i>";
+            menuBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if(currentMenu) currentMenu.remove();
+                const menu = document.createElement("div"); menu.className = "context-menu";
+                menu.style.left = e.clientX + "px"; menu.style.top = e.clientY + "px";
+                const optEdit = document.createElement("div"); optEdit.innerHTML = "<i class='fas fa-edit'></i> Editar nombre";
+                optEdit.onclick = async () => {
+                    const newName = prompt("Nombre para este gatito:", p.nombre || "");
+                    if(newName !== null) { await updatePhotoName(p.id, newName); await renderGallery(); }
+                    menu.remove(); if(currentMenu===menu) currentMenu=null;
+                };
+                const optCopy = document.createElement("div"); optCopy.innerHTML = "<i class='fas fa-copy'></i> Copiar foto";
+                optCopy.onclick = () => {
+                    copiedPhotoBlob = p.blob; copiedPhotoName = p.nombre || "";
+                    alert("Foto copiada. Puedes pegar en otra posición.");
+                    menu.remove(); if(currentMenu===menu) currentMenu=null;
+                };
+                const optPaste = document.createElement("div"); optPaste.innerHTML = "<i class='fas fa-paste'></i> Pegar foto (copiar aquí)";
+                optPaste.onclick = async () => {
+                    if(!copiedPhotoBlob) { alert("No hay foto copiada."); menu.remove(); return; }
+                    const total = (await getAllPhotos()).length;
+                    if(total >= MAX_FOTOS) { alert(`Límite alcanzado (${MAX_FOTOS})`); menu.remove(); return; }
+                    await savePhotoToDB(copiedPhotoBlob, copiedPhotoName + " (copia)");
+                    await renderGallery();
+                    menu.remove(); if(currentMenu===menu) currentMenu=null;
+                };
+                const optDel = document.createElement("div"); optDel.innerHTML = "<i class='fas fa-trash-alt'></i> Borrar foto"; optDel.className = "delete-photo-btn";
+                optDel.onclick = async () => {
+                    if(confirm("¿Borrar este gatito?")) { await deletePhotoFromDB(p.id); await renderGallery(); }
+                    menu.remove(); if(currentMenu===menu) currentMenu=null;
+                };
+                menu.append(optEdit, optCopy, optPaste, optDel);
+                document.body.appendChild(menu);
+                currentMenu = menu;
+                const closeHandler = (ev) => { if(!menu.contains(ev.target)) { menu.remove(); if(currentMenu===menu) currentMenu=null; document.removeEventListener("click", closeHandler); } };
+                setTimeout(()=>document.addEventListener("click", closeHandler), 10);
+            });
+            div.append(img, nameSpan, menuBtn);
+            grid.appendChild(div);
+        }
+    }
+    
+    async function addNewPhotos(files) {
+        const space = MAX_FOTOS - (await getAllPhotos()).length;
+        if(space <= 0) { alert(`Límite de ${MAX_FOTOS} fotos alcanzado.`); return; }
+        let selected = Array.from(files).filter(f=>f.type.startsWith("image/")).slice(0, space);
+        if(selected.length===0) return;
+        for(let file of selected) {
+            const blob = await resizeAndOptimizeImage(file, 1000, 0.8);
+            let nombre = "";
+            const ask = prompt("Nombre del gatito (opcional):", "");
+            if(ask !== null) nombre = ask.trim();
+            await savePhotoToDB(blob, nombre);
+        }
+        await renderGallery();
+    }
+    
+    function resizeAndOptimizeImage(file, maxSize, quality) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    let w = img.width, h = img.height;
+                    if(w>maxSize || h>maxSize) { if(w>h) { h = h*maxSize/w; w = maxSize; } else { w = w*maxSize/h; h = maxSize; } }
+                    const canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h;
+                    canvas.getContext("2d").drawImage(img,0,0,w,h);
+                    canvas.toBlob(blob=>resolve(blob), file.type, quality);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    
+    async function expand() { if(MAX_FOTOS===500){ MAX_FOTOS=750; document.getElementById("maxLimitSpan").innerText=750; alert("¡Expandido a 750 fotos!"); renderGallery();} else alert("Ya máximo 750"); }
+    async function clearAll() { if(confirm("Borrar TODAS las fotos?")){ await deleteAllPhotosDB(); await renderGallery(); } }
+    
+    window.addEventListener("load", async () => {
+        await initDB();
+        await renderGallery();
+        document.getElementById("fileInput").addEventListener("change", async (e) => { if(e.target.files.length) { await addNewPhotos(Array.from(e.target.files)); e.target.value=""; } });
+        document.getElementById("expandBtn").onclick = expand;
+        document.getElementById("clearAllBtn").onclick = clearAll;
+        const drop = document.getElementById("dropArea");
+        drop.addEventListener("dragover", e=>{ e.preventDefault(); drop.classList.add("drag-over"); });
+        drop.addEventListener("dragleave", ()=>drop.classList.remove("drag-over"));
+        drop.addEventListener("drop", async e=>{ e.preventDefault(); drop.classList.remove("drag-over"); const files=Array.from(e.dataTransfer.files); if(files.length) await addNewPhotos(files); });
+        document.querySelector("label[for='fileInput']").onclick = ()=>document.getElementById("fileInput").click();
+    });
+</script>
+</body>
+</html>
