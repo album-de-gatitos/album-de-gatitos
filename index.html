@@ -3,30 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Álbum de Gatitos · Edición Mundial</title>
+    <title>Álbum de Gatitos · Edición mundial</title>
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Comic+Neue:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             background: linear-gradient(145deg, #f9e7b3 0%, #f5cda0 100%);
             font-family: 'Patrick Hand', 'Comic Neue', 'Indie Flower', cursive;
             padding: clamp(0.8rem, 4vw, 2rem);
             min-height: 100vh;
-            position: relative;
         }
         body::before {
             content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: repeating-linear-gradient(transparent, transparent 28px, rgba(255,215,150,0.3) 28px, rgba(255,200,120,0.3) 30px);
             pointer-events: none;
             z-index: 0;
@@ -144,22 +135,14 @@
             border-radius: 30px 18px 35px 20px;
             box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
         }
-        .cat-card span {
-            display: block;
-            margin-top: 8px;
-            font-size: clamp(1.1rem, 5vw, 1.6rem);
-            font-weight: bold;
-            color: #c1632a;
-        }
+        .cat-card span { display: block; margin-top: 8px; font-size: clamp(1.1rem, 5vw, 1.6rem); font-weight: bold; color: #c1632a; }
         .photos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
-        @media (max-width: 480px) {
-            .photos-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
-        }
+        @media (max-width: 480px) { .photos-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; } }
         .photo-item {
             background: #fffbf0;
             border-radius: 35px 22px 45px 28px;
@@ -168,7 +151,6 @@
             transform: rotate(var(--rot, 0deg));
             position: relative;
             border: 1.5px solid #ffcd94;
-            transition: 0.1s;
         }
         .photo-item:nth-child(odd) { --rot: -1deg; }
         .photo-item:nth-child(3n) { --rot: 1.2deg; }
@@ -209,34 +191,30 @@
             font-size: 1rem;
             box-shadow: 2px 2px 0 #b97f3e;
             z-index: 4;
-            transition: 0.05s linear;
         }
         .menu-btn:active { transform: scale(0.95); }
         .context-menu {
-            position: absolute;
+            position: fixed;
             background: #fff7e8;
             border: 2px solid #ffbc6e;
             border-radius: 28px;
             padding: 6px 0;
-            min-width: 130px;
-            box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
-            z-index: 100;
+            min-width: 150px;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
+            z-index: 200;
             font-family: 'Patrick Hand', cursive;
         }
         .context-menu div {
-            padding: 8px 16px;
+            padding: 10px 18px;
             cursor: pointer;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #5c2b0a;
-            transition: background 0.05s;
         }
-        .context-menu div:hover { background: #ffefcf; }
-        .delete-photo-btn {
-            color: #d9534f;
-        }
+        .context-menu div:active { background: #ffefcf; }
+        .delete-photo-btn { color: #d9534f; }
         .empty-message {
             text-align: center;
             font-size: clamp(1.2rem, 5vw, 1.8rem);
@@ -253,10 +231,82 @@
             margin: 12px 0;
             text-align: center;
             border: 3px dotted #ffa559;
-            transition: 0.1s;
         }
         .drop-area.drag-over { background: #ffe3aa; border: 4px solid #fd9426; }
         footer { text-align: center; margin-top: 2rem; font-size: clamp(0.7rem, 3vw, 1rem); color: #a4511b; }
+        
+        /* Modal personalizado */
+        .custom-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(3px);
+        }
+        .modal-card {
+            background: #fffcf0;
+            border-radius: 60px 40px 60px 40px;
+            padding: 1.8rem;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            border: 3px solid #ffbc6e;
+            box-shadow: 20px 20px 0 rgba(0,0,0,0.2);
+            font-family: 'Patrick Hand', cursive;
+        }
+        .modal-card h3 {
+            font-size: 1.8rem;
+            color: #bf5e2c;
+            margin-bottom: 1rem;
+        }
+        .modal-card input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 50px;
+            border: 2px solid #ffbc6e;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            background: #fffae6;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .modal-btn {
+            background: #fedba0;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Patrick Hand', cursive;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 #b97f3e;
+        }
+        .modal-btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #b97f3e; }
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c5a2e;
+            color: #fff3cf;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1rem;
+            z-index: 1001;
+            box-shadow: 4px 4px 0 #1f3e20;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
     </style>
 </head>
 <body>
@@ -280,180 +330,126 @@
     <div class="cover front-cover">
         <div class="cover-title">📖 ÁLBUM DE GATITOS 🐾</div>
         <div class="cat-duo">
-            <div class="cat-card">
-                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="200" height="200" fill="#FCE9C4" rx="30" ry="30"/>
-                    <!-- Siamés: cuerpo crema, cara máscara marrón -->
-                    <ellipse cx="100" cy="120" rx="45" ry="40" fill="#E8D5B5" stroke="#AA7C4A" stroke-width="2.5"/>
-                    <circle cx="100" cy="100" r="28" fill="#F3E5C0" stroke="#AA7C4A" stroke-width="2"/>
-                    <!-- Orejas -->
-                    <polygon points="78,80 68,52 90,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/>
-                    <polygon points="122,80 132,52 110,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/>
-                    <!-- Máscara marrón -->
-                    <ellipse cx="100" cy="105" rx="18" ry="14" fill="#AA7C4A" opacity="0.7"/>
-                    <!-- Ojos azules -->
-                    <circle cx="90" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/>
-                    <circle cx="110" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/>
-                    <circle cx="89" cy="95" r="1.5" fill="white"/>
-                    <circle cx="109" cy="95" r="1.5" fill="white"/>
-                    <!-- Nariz y bigotes -->
-                    <polygon points="100,103 97,107 103,107" fill="#DB8E6B"/>
-                    <line x1="85" y1="106" x2="70" y2="102" stroke="#7A5B3A" stroke-width="1.5"/>
-                    <line x1="85" y1="109" x2="68" y2="110" stroke="#7A5B3A" stroke-width="1.5"/>
-                    <line x1="115" y1="106" x2="130" y2="102" stroke="#7A5B3A" stroke-width="1.5"/>
-                    <line x1="115" y1="109" x2="132" y2="110" stroke="#7A5B3A" stroke-width="1.5"/>
-                    <text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#B35F2A">🐱 Siamés</text>
-                </svg>
-                <span>Siamés real <i class="fas fa-crown"></i></span>
-            </div>
-            <div class="cat-card">
-                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="200" height="200" fill="#2C2C2C" rx="30" ry="30"/>
-                    <!-- Pantera negra elegante -->
-                    <ellipse cx="100" cy="125" rx="48" ry="38" fill="#1E1E1E" stroke="#444" stroke-width="2"/>
-                    <circle cx="100" cy="100" r="30" fill="#252525" stroke="#444" stroke-width="2"/>
-                    <polygon points="76,80 64,48 92,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/>
-                    <polygon points="124,80 136,48 108,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/>
-                    <!-- Ojos amarillos brillantes -->
-                    <circle cx="89" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/>
-                    <circle cx="111" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/>
-                    <circle cx="88" cy="94" r="2" fill="black"/>
-                    <circle cx="110" cy="94" r="2" fill="black"/>
-                    <polygon points="100,104 96,109 104,109" fill="#5A3E2E"/>
-                    <line x1="82" y1="108" x2="65" y2="104" stroke="#666" stroke-width="1.5"/>
-                    <line x1="82" y1="111" x2="63" y2="113" stroke="#666" stroke-width="1.5"/>
-                    <line x1="118" y1="108" x2="135" y2="104" stroke="#666" stroke-width="1.5"/>
-                    <line x1="118" y1="111" x2="137" y2="113" stroke="#666" stroke-width="1.5"/>
-                    <text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#E0B07F">🐈‍⬛ Panterita</text>
-                </svg>
-                <span>Panterita <i class="fas fa-moon"></i></span>
-            </div>
+            <div class="cat-card" id="siamCard"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#FCE9C4" rx="30"/><ellipse cx="100" cy="120" rx="45" ry="40" fill="#E8D5B5" stroke="#AA7C4A" stroke-width="2.5"/><circle cx="100" cy="100" r="28" fill="#F3E5C0" stroke="#AA7C4A" stroke-width="2"/><polygon points="78,80 68,52 90,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><polygon points="122,80 132,52 110,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><ellipse cx="100" cy="105" rx="18" ry="14" fill="#AA7C4A" opacity="0.7"/><circle cx="90" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="110" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="89" cy="95" r="1.5" fill="white"/><circle cx="109" cy="95" r="1.5" fill="white"/><polygon points="100,103 97,107 103,107" fill="#DB8E6B"/><line x1="85" y1="106" x2="70" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="85" y1="109" x2="68" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="106" x2="130" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="109" x2="132" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#B35F2A">🐱 Siamés</text></svg><span>Siamés real <i class="fas fa-crown"></i></span></div>
+            <div class="cat-card" id="panteraCard"><svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#2C2C2C" rx="30"/><ellipse cx="100" cy="125" rx="48" ry="38" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="100" cy="100" r="30" fill="#252525" stroke="#444" stroke-width="2"/><polygon points="76,80 64,48 92,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><polygon points="124,80 136,48 108,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="89" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="111" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="88" cy="94" r="2" fill="black"/><circle cx="110" cy="94" r="2" fill="black"/><polygon points="100,104 96,109 104,109" fill="#5A3E2E"/><line x1="82" y1="108" x2="65" y2="104" stroke="#666" stroke-width="1.5"/><line x1="82" y1="111" x2="63" y2="113" stroke="#666" stroke-width="1.5"/><line x1="118" y1="108" x2="135" y2="104" stroke="#666" stroke-width="1.5"/><line x1="118" y1="111" x2="137" y2="113" stroke="#666" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#E0B07F">🐈‍⬛ Panterita</text></svg><span>Panterita <i class="fas fa-moon"></i></span></div>
         </div>
         <p style="text-align:center; margin-top:16px;">✨ ¡Pega aquí tus fotos y ponles nombre! ✨</p>
     </div>
 
-    <div id="photosGrid" class="photos-grid">
-        <div class="empty-message"><i class="fas fa-cat"></i> ¡No hay fotos aún! Sube gatitos desde tu galería, Google o la calle 🐈</div>
-    </div>
+    <div id="photosGrid" class="photos-grid"><div class="empty-message"><i class="fas fa-cat"></i> ¡No hay fotos aún! Sube gatitos desde tu galería, Google o la calle 🐈</div></div>
 
     <!-- CONTRAPORTADA con mismos dibujos -->
     <div class="cover back-cover">
         <div class="cover-title">📘 ÁLBUM DE GATITOS 🐾</div>
         <div class="cat-duo">
-            <div class="cat-card">
-                <svg viewBox="0 0 200 200"><use href="#siamDibujo"/></svg>
-                <span>Siamés</span>
-            </div>
-            <div class="cat-card">
-                <svg viewBox="0 0 200 200"><use href="#panteraDibujo"/></svg>
-                <span>Panterita</span>
-            </div>
+            <div class="cat-card"><svg viewBox="0 0 200 200"><use href="#siamDibujo"/></svg><span>Siamés</span></div>
+            <div class="cat-card"><svg viewBox="0 0 200 200"><use href="#panteraDibujo"/></svg><span>Panterita</span></div>
         </div>
         <p style="text-align:center; margin-top:16px;"><i class="fas fa-feather-alt"></i> ¡Hasta 750 michis! Edición ronroneante</p>
     </div>
-    <footer>🐾 Toca ⋮ en cada foto para editar nombre, copiar, pegar o borrar 🐾</footer>
+    <footer>🐾 Toca ⋮ en cada foto → editar nombre, copiar, pegar o borrar 🐾</footer>
 </div>
 
+<!-- SVG definitions ocultas -->
+<svg style="display:none;"><defs><g id="siamDibujo"><rect width="200" height="200" fill="#FCE9C4" rx="30"/><ellipse cx="100" cy="120" rx="45" ry="40" fill="#E8D5B5" stroke="#AA7C4A" stroke-width="2.5"/><circle cx="100" cy="100" r="28" fill="#F3E5C0" stroke="#AA7C4A" stroke-width="2"/><polygon points="78,80 68,52 90,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><polygon points="122,80 132,52 110,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><ellipse cx="100" cy="105" rx="18" ry="14" fill="#AA7C4A" opacity="0.7"/><circle cx="90" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="110" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="89" cy="95" r="1.5" fill="white"/><circle cx="109" cy="95" r="1.5" fill="white"/><polygon points="100,103 97,107 103,107" fill="#DB8E6B"/><line x1="85" y1="106" x2="70" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="85" y1="109" x2="68" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="106" x2="130" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="109" x2="132" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#B35F2A">🐱 Siamés</text></g><g id="panteraDibujo"><rect width="200" height="200" fill="#2C2C2C" rx="30"/><ellipse cx="100" cy="125" rx="48" ry="38" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="100" cy="100" r="30" fill="#252525" stroke="#444" stroke-width="2"/><polygon points="76,80 64,48 92,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><polygon points="124,80 136,48 108,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="89" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="111" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="88" cy="94" r="2" fill="black"/><circle cx="110" cy="94" r="2" fill="black"/><polygon points="100,104 96,109 104,109" fill="#5A3E2E"/><line x1="82" y1="108" x2="65" y2="104" stroke="#666" stroke-width="1.5"/><line x1="82" y1="111" x2="63" y2="113" stroke="#666" stroke-width="1.5"/><line x1="118" y1="108" x2="135" y2="104" stroke="#666" stroke-width="1.5"/><line x1="118" y1="111" x2="137" y2="113" stroke="#666" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#E0B07F">🐈‍⬛ Panterita</text></g></defs></svg>
+
 <script>
-    // DEFINICIONES SVG REUTILIZABLES
-    const svgSiam = `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#FCE9C4" rx="30"/><ellipse cx="100" cy="120" rx="45" ry="40" fill="#E8D5B5" stroke="#AA7C4A" stroke-width="2.5"/><circle cx="100" cy="100" r="28" fill="#F3E5C0" stroke="#AA7C4A" stroke-width="2"/><polygon points="78,80 68,52 90,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><polygon points="122,80 132,52 110,72" fill="#AA7C4A" stroke="#6B4226" stroke-width="2"/><ellipse cx="100" cy="105" rx="18" ry="14" fill="#AA7C4A" opacity="0.7"/><circle cx="90" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="110" cy="96" r="5" fill="#4A7A9C" stroke="#2C3E50" stroke-width="1.5"/><circle cx="89" cy="95" r="1.5" fill="white"/><circle cx="109" cy="95" r="1.5" fill="white"/><polygon points="100,103 97,107 103,107" fill="#DB8E6B"/><line x1="85" y1="106" x2="70" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="85" y1="109" x2="68" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="106" x2="130" y2="102" stroke="#7A5B3A" stroke-width="1.5"/><line x1="115" y1="109" x2="132" y2="110" stroke="#7A5B3A" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#B35F2A">🐱 Siamés</text></svg>`;
-    const svgPantera = `<svg viewBox="0 0 200 200"><rect width="200" height="200" fill="#2C2C2C" rx="30"/><ellipse cx="100" cy="125" rx="48" ry="38" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="100" cy="100" r="30" fill="#252525" stroke="#444" stroke-width="2"/><polygon points="76,80 64,48 92,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><polygon points="124,80 136,48 108,72" fill="#1E1E1E" stroke="#444" stroke-width="2"/><circle cx="89" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="111" cy="96" r="6" fill="#F5D742" stroke="#C49A1B" stroke-width="1.5"/><circle cx="88" cy="94" r="2" fill="black"/><circle cx="110" cy="94" r="2" fill="black"/><polygon points="100,104 96,109 104,109" fill="#5A3E2E"/><line x1="82" y1="108" x2="65" y2="104" stroke="#666" stroke-width="1.5"/><line x1="82" y1="111" x2="63" y2="113" stroke="#666" stroke-width="1.5"/><line x1="118" y1="108" x2="135" y2="104" stroke="#666" stroke-width="1.5"/><line x1="118" y1="111" x2="137" y2="113" stroke="#666" stroke-width="1.5"/><text x="100" y="170" text-anchor="middle" font-family="'Patrick Hand', cursive" font-size="14" fill="#E0B07F">🐈‍⬛ Panterita</text></svg>`;
-    const defs = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    defs.style.display = "none";
-    defs.innerHTML = `<defs><g id="siamDibujo">${svgSiam}</g><g id="panteraDibujo">${svgPantera}</g></defs>`;
-    document.body.appendChild(defs);
-    document.querySelectorAll('.back-cover svg, .front-cover svg').forEach(svg => { if(svg.children.length===0) svg.innerHTML = `<use href="#siamDibujo"/>`; });
-    document.querySelectorAll('.back-cover .cat-card:last-child svg, .front-cover .cat-card:last-child svg').forEach(svg => svg.innerHTML = `<use href="#panteraDibujo"/>`);
-    
-    // --- LÓGICA BD Y VARIABLES GLOBALES ---
+    // --------------------------------------------------------------
+    // ÁLBUM CON MENÚS Y MODALES TOTALMENTE PERSONALIZADOS (SIN PROMPT/ALERT)
+    // --------------------------------------------------------------
     let MAX_FOTOS = 500;
     let db = null;
-    let copiedPhotoBlob = null;  // para copiar/pegar (guardamos blob y nombre opcional)
+    let copiedPhotoBlob = null;
     let copiedPhotoName = "";
-    
-    const DB_NAME = "GatitosAlbumDB";
-    const STORE_NAME = "fotos";
     let currentMenu = null;
+    let pendingEditId = null;
     
+    // Funciones helper: Toast
+    function showToast(msg, duration = 2000) {
+        let toast = document.querySelector('.toast-msg');
+        if(toast) toast.remove();
+        toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => { if(toast) toast.style.opacity = '0'; setTimeout(() => toast?.remove(), 300); }, duration);
+    }
+    
+    // Modal de entrada de texto (nombre)
+    function showNameModal(title, defaultValue, onConfirm) {
+        const modalDiv = document.createElement('div');
+        modalDiv.className = 'custom-modal';
+        modalDiv.innerHTML = `
+            <div class="modal-card">
+                <h3><i class="fas fa-cat"></i> ${title}</h3>
+                <input type="text" id="modalNameInput" placeholder="Nombre del gatito (opcional)" value="${escapeHtml(defaultValue||'')}" autocomplete="off">
+                <div class="modal-buttons">
+                    <button class="modal-btn" id="modalConfirmBtn">✅ Aceptar</button>
+                    <button class="modal-btn" id="modalCancelBtn">❌ Cancelar</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modalDiv);
+        const input = modalDiv.querySelector('#modalNameInput');
+        input.focus();
+        const closeModal = () => modalDiv.remove();
+        modalDiv.querySelector('#modalConfirmBtn').onclick = () => {
+            const val = input.value.trim();
+            onConfirm(val);
+            closeModal();
+        };
+        modalDiv.querySelector('#modalCancelBtn').onclick = closeModal;
+        modalDiv.addEventListener('click', (e) => { if(e.target === modalDiv) closeModal(); });
+    }
+    
+    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    
+    // IndexedDB
     function initDB() {
         return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, 3);
-            request.onerror = reject;
-            request.onsuccess = (e) => { db = e.target.result; resolve(db); };
-            request.onupgradeneeded = (e) => {
+            const req = indexedDB.open("GatitosAlbumDB", 4);
+            req.onerror = reject;
+            req.onsuccess = (e) => { db = e.target.result; resolve(db); };
+            req.onupgradeneeded = (e) => {
                 const dbUp = e.target.result;
-                if (!dbUp.objectStoreNames.contains(STORE_NAME)) {
-                    const store = dbUp.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
+                if (!dbUp.objectStoreNames.contains("fotos")) {
+                    const store = dbUp.createObjectStore("fotos", { keyPath: "id", autoIncrement: true });
                     store.createIndex("timestamp", "timestamp");
                 }
             };
         });
     }
-    
     async function savePhotoToDB(blob, nombre) {
-        if (!db) throw new Error("DB no lista");
         return new Promise((resolve, reject) => {
-            const tx = db.transaction([STORE_NAME], "readwrite");
-            const store = tx.objectStore(STORE_NAME);
-            const photoObj = { blob, nombre: nombre || "", timestamp: Date.now() };
-            const req = store.add(photoObj);
-            req.onsuccess = (e) => resolve({ id: e.target.result, ...photoObj });
+            const tx = db.transaction(["fotos"], "readwrite");
+            const store = tx.objectStore("fotos");
+            const req = store.add({ blob, nombre: nombre || "", timestamp: Date.now() });
+            req.onsuccess = (e) => resolve({ id: e.target.result, blob, nombre });
             req.onerror = reject;
         });
     }
-    
     async function updatePhotoName(id, newName) {
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction([STORE_NAME], "readwrite");
-            const store = tx.objectStore(STORE_NAME);
-            const getReq = store.get(id);
-            getReq.onsuccess = () => {
-                const data = getReq.result;
-                if (data) {
-                    data.nombre = newName;
-                    const putReq = store.put(data);
-                    putReq.onsuccess = () => resolve(true);
-                    putReq.onerror = reject;
-                } else reject("no existe");
-            };
-            getReq.onerror = reject;
-        });
+        const tx = db.transaction(["fotos"], "readwrite");
+        const store = tx.objectStore("fotos");
+        const data = await new Promise((res,rej)=>{ const r=store.get(id); r.onsuccess=()=>res(r.result); r.onerror=rej; });
+        if(data) { data.nombre = newName; await new Promise((res,rej)=>{ const r=store.put(data); r.onsuccess=res; r.onerror=rej; }); }
     }
-    
     async function getAllPhotos() {
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction([STORE_NAME], "readonly");
-            const store = tx.objectStore(STORE_NAME);
-            const req = store.getAll();
-            req.onsuccess = () => {
-                let items = req.result || [];
-                items.sort((a,b)=> a.timestamp - b.timestamp);
-                resolve(items);
-            };
-            req.onerror = reject;
-        });
+        const tx = db.transaction(["fotos"], "readonly");
+        const items = await new Promise((res,rej)=>{ const r=tx.objectStore("fotos").getAll(); r.onsuccess=()=>res(r.result||[]); r.onerror=rej; });
+        items.sort((a,b)=> a.timestamp - b.timestamp);
+        return items;
     }
-    
-    async function deletePhotoFromDB(id) { 
-        return new Promise((resolve,reject)=>{
-            const tx = db.transaction([STORE_NAME],"readwrite");
-            tx.objectStore(STORE_NAME).delete(id).onsuccess = ()=>resolve(true);
-            tx.onerror = reject;
-        });
+    async function deletePhotoFromDB(id) {
+        const tx = db.transaction(["fotos"], "readwrite");
+        await new Promise((res,rej)=>{ const r=tx.objectStore("fotos").delete(id); r.onsuccess=res; r.onerror=rej; });
     }
     async function deleteAllPhotosDB() {
-        const tx = db.transaction([STORE_NAME],"readwrite");
-        await tx.objectStore(STORE_NAME).clear();
+        const tx = db.transaction(["fotos"], "readwrite");
+        await tx.objectStore("fotos").clear();
         return new Promise(r=>tx.oncomplete=r);
     }
     
-    async function addPhotoWithName(blob, customName) {
-        const finalName = customName && customName.trim() !== "" ? customName.trim() : null;
-        await savePhotoToDB(blob, finalName || "");
-        await renderGallery();
-    }
-    
-    // render principal
     async function renderGallery() {
         const all = await getAllPhotos();
         const count = all.length;
@@ -468,78 +464,89 @@
         for(let i=0;i<all.length;i++) {
             const p = all[i];
             const imgUrl = URL.createObjectURL(p.blob);
-            const div = document.createElement("div");
-            div.className = "photo-item";
-            const img = document.createElement("img");
-            img.src = imgUrl; img.className = "photo-img";
-            img.addEventListener("click", (e) => {
-                e.stopPropagation();
-                const modal = document.createElement("div");
-                modal.style.position="fixed"; modal.style.top=0; modal.style.left=0; modal.style.width="100%"; modal.style.height="100%";
-                modal.style.background="rgba(0,0,0,0.85)"; modal.style.display="flex"; modal.style.alignItems="center"; modal.style.justifyContent="center";
-                modal.style.zIndex="9999";
-                const bigImg = document.createElement("img"); bigImg.src=imgUrl; bigImg.style.maxWidth="90%"; bigImg.style.borderRadius="40px";
-                modal.appendChild(bigImg); modal.onclick=()=>modal.remove(); document.body.appendChild(modal);
-            });
+            const div = document.createElement("div"); div.className = "photo-item";
+            const img = document.createElement("img"); img.src = imgUrl; img.className = "photo-img";
+            img.onclick = (e) => { e.stopPropagation(); verGrande(imgUrl); };
             const nameSpan = document.createElement("div"); nameSpan.className = "photo-name";
             const displayName = p.nombre && p.nombre !== "" ? p.nombre : `Gatito #${i+1}`;
             nameSpan.innerText = displayName;
             const menuBtn = document.createElement("div"); menuBtn.className = "menu-btn"; menuBtn.innerHTML = "<i class='fas fa-ellipsis-v'></i>";
-            menuBtn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                if(currentMenu) currentMenu.remove();
-                const menu = document.createElement("div"); menu.className = "context-menu";
-                menu.style.left = e.clientX + "px"; menu.style.top = e.clientY + "px";
-                const optEdit = document.createElement("div"); optEdit.innerHTML = "<i class='fas fa-edit'></i> Editar nombre";
-                optEdit.onclick = async () => {
-                    const newName = prompt("Nombre para este gatito:", p.nombre || "");
-                    if(newName !== null) { await updatePhotoName(p.id, newName); await renderGallery(); }
-                    menu.remove(); if(currentMenu===menu) currentMenu=null;
-                };
-                const optCopy = document.createElement("div"); optCopy.innerHTML = "<i class='fas fa-copy'></i> Copiar foto";
-                optCopy.onclick = () => {
-                    copiedPhotoBlob = p.blob; copiedPhotoName = p.nombre || "";
-                    alert("Foto copiada. Puedes pegar en otra posición.");
-                    menu.remove(); if(currentMenu===menu) currentMenu=null;
-                };
-                const optPaste = document.createElement("div"); optPaste.innerHTML = "<i class='fas fa-paste'></i> Pegar foto (copiar aquí)";
-                optPaste.onclick = async () => {
-                    if(!copiedPhotoBlob) { alert("No hay foto copiada."); menu.remove(); return; }
-                    const total = (await getAllPhotos()).length;
-                    if(total >= MAX_FOTOS) { alert(`Límite alcanzado (${MAX_FOTOS})`); menu.remove(); return; }
-                    await savePhotoToDB(copiedPhotoBlob, copiedPhotoName + " (copia)");
-                    await renderGallery();
-                    menu.remove(); if(currentMenu===menu) currentMenu=null;
-                };
-                const optDel = document.createElement("div"); optDel.innerHTML = "<i class='fas fa-trash-alt'></i> Borrar foto"; optDel.className = "delete-photo-btn";
-                optDel.onclick = async () => {
-                    if(confirm("¿Borrar este gatito?")) { await deletePhotoFromDB(p.id); await renderGallery(); }
-                    menu.remove(); if(currentMenu===menu) currentMenu=null;
-                };
-                menu.append(optEdit, optCopy, optPaste, optDel);
-                document.body.appendChild(menu);
-                currentMenu = menu;
-                const closeHandler = (ev) => { if(!menu.contains(ev.target)) { menu.remove(); if(currentMenu===menu) currentMenu=null; document.removeEventListener("click", closeHandler); } };
-                setTimeout(()=>document.addEventListener("click", closeHandler), 10);
-            });
+            menuBtn.onclick = (e) => { e.stopPropagation(); showContextMenu(e.clientX, e.clientY, p.id, p.blob, p.nombre, imgUrl); };
             div.append(img, nameSpan, menuBtn);
             grid.appendChild(div);
         }
     }
     
+    function verGrande(url) {
+        const modal = document.createElement("div"); modal.style.position="fixed"; modal.style.top=0; modal.style.left=0; modal.style.width="100%"; modal.style.height="100%";
+        modal.style.backgroundColor="rgba(0,0,0,0.85)"; modal.style.display="flex"; modal.style.alignItems="center"; modal.style.justifyContent="center";
+        modal.style.zIndex="9999"; modal.style.cursor="pointer";
+        const bigImg = document.createElement("img"); bigImg.src=url; bigImg.style.maxWidth="90%"; bigImg.style.borderRadius="40px";
+        modal.appendChild(bigImg); modal.onclick=()=>modal.remove(); document.body.appendChild(modal);
+    }
+    
+    function showContextMenu(x, y, photoId, blob, currentName, imgUrl) {
+        if(currentMenu) currentMenu.remove();
+        const menu = document.createElement("div"); menu.className = "context-menu";
+        menu.style.left = x + "px"; menu.style.top = y + "px";
+        // Ajuste para no salir de pantalla
+        setTimeout(() => {
+            const rect = menu.getBoundingClientRect();
+            if(rect.right > window.innerWidth) menu.style.left = (window.innerWidth - rect.width - 10) + "px";
+            if(rect.bottom > window.innerHeight) menu.style.top = (window.innerHeight - rect.height - 10) + "px";
+        }, 10);
+        
+        const optEdit = document.createElement("div"); optEdit.innerHTML = "<i class='fas fa-edit'></i> Editar nombre";
+        optEdit.onclick = async () => {
+            menu.remove(); if(currentMenu===menu) currentMenu=null;
+            showNameModal("Editar nombre del gatito", currentName, async (newName) => {
+                await updatePhotoName(photoId, newName);
+                await renderGallery();
+                showToast("✨ Nombre actualizado ✨");
+            });
+        };
+        const optCopy = document.createElement("div"); optCopy.innerHTML = "<i class='fas fa-copy'></i> Copiar foto";
+        optCopy.onclick = () => {
+            copiedPhotoBlob = blob;
+            copiedPhotoName = currentName;
+            menu.remove(); if(currentMenu===menu) currentMenu=null;
+            showToast("📋 Foto copiada. Puedes pegar en otro lugar.");
+        };
+        const optPaste = document.createElement("div"); optPaste.innerHTML = "<i class='fas fa-paste'></i> Pegar foto (duplicar aquí)";
+        optPaste.onclick = async () => {
+            if(!copiedPhotoBlob) { showToast("No hay foto copiada."); menu.remove(); if(currentMenu===menu) currentMenu=null; return; }
+            const total = (await getAllPhotos()).length;
+            if(total >= MAX_FOTOS) { showToast(`❌ Límite ${MAX_FOTOS} alcanzado`); menu.remove(); return; }
+            const newName = copiedPhotoName ? copiedPhotoName + " (copia)" : "Copia de gatito";
+            await savePhotoToDB(copiedPhotoBlob, newName);
+            await renderGallery();
+            showToast("🐱 Foto pegada correctamente");
+            menu.remove(); if(currentMenu===menu) currentMenu=null;
+        };
+        const optDel = document.createElement("div"); optDel.innerHTML = "<i class='fas fa-trash-alt'></i> Borrar foto"; optDel.className = "delete-photo-btn";
+        optDel.onclick = async () => {
+            if(confirm("¿Borrar este gatito del álbum?")) { await deletePhotoFromDB(photoId); await renderGallery(); showToast("🗑️ Foto eliminada"); }
+            menu.remove(); if(currentMenu===menu) currentMenu=null;
+        };
+        menu.append(optEdit, optCopy, optPaste, optDel);
+        document.body.appendChild(menu);
+        currentMenu = menu;
+        const closeHandler = (ev) => { if(!menu.contains(ev.target)) { menu.remove(); if(currentMenu===menu) currentMenu=null; document.removeEventListener("click", closeHandler); document.removeEventListener("touchstart", closeHandler); } };
+        setTimeout(()=>{ document.addEventListener("click", closeHandler); document.addEventListener("touchstart", closeHandler); }, 20);
+    }
+    
     async function addNewPhotos(files) {
-        const space = MAX_FOTOS - (await getAllPhotos()).length;
-        if(space <= 0) { alert(`Límite de ${MAX_FOTOS} fotos alcanzado.`); return; }
-        let selected = Array.from(files).filter(f=>f.type.startsWith("image/")).slice(0, space);
-        if(selected.length===0) return;
-        for(let file of selected) {
+        let space = MAX_FOTOS - (await getAllPhotos()).length;
+        if(space <= 0) { showToast(`Límite de ${MAX_FOTOS} fotos alcanzado.`); return; }
+        let imgFiles = Array.from(files).filter(f=>f.type.startsWith("image/")).slice(0, space);
+        if(imgFiles.length === 0) return;
+        for(let file of imgFiles) {
             const blob = await resizeAndOptimizeImage(file, 1000, 0.8);
-            let nombre = "";
-            const ask = prompt("Nombre del gatito (opcional):", "");
-            if(ask !== null) nombre = ask.trim();
-            await savePhotoToDB(blob, nombre);
+            // no preguntamos nombre ahora, usaremos nombre por defecto y luego editarán
+            await savePhotoToDB(blob, "");
         }
         await renderGallery();
+        showToast(`${imgFiles.length} foto(s) agregada(s). Puedes editar el nombre tocando ⋮`);
     }
     
     function resizeAndOptimizeImage(file, maxSize, quality) {
@@ -560,15 +567,12 @@
         });
     }
     
-    async function expand() { if(MAX_FOTOS===500){ MAX_FOTOS=750; document.getElementById("maxLimitSpan").innerText=750; alert("¡Expandido a 750 fotos!"); renderGallery();} else alert("Ya máximo 750"); }
-    async function clearAll() { if(confirm("Borrar TODAS las fotos?")){ await deleteAllPhotosDB(); await renderGallery(); } }
-    
     window.addEventListener("load", async () => {
         await initDB();
         await renderGallery();
         document.getElementById("fileInput").addEventListener("change", async (e) => { if(e.target.files.length) { await addNewPhotos(Array.from(e.target.files)); e.target.value=""; } });
-        document.getElementById("expandBtn").onclick = expand;
-        document.getElementById("clearAllBtn").onclick = clearAll;
+        document.getElementById("expandBtn").onclick = () => { if(MAX_FOTOS===500){ MAX_FOTOS=750; document.getElementById("maxLimitSpan").innerText=750; showToast("🎉 Álbum expandido a 750 fotos"); renderGallery();} else showToast("Ya está en 750"); };
+        document.getElementById("clearAllBtn").onclick = async () => { if(confirm("¿Borrar TODAS las fotos del álbum?")){ await deleteAllPhotosDB(); await renderGallery(); showToast("Álbum limpiado"); } };
         const drop = document.getElementById("dropArea");
         drop.addEventListener("dragover", e=>{ e.preventDefault(); drop.classList.add("drag-over"); });
         drop.addEventListener("dragleave", ()=>drop.classList.remove("drag-over"));
